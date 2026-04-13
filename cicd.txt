@@ -1,0 +1,150 @@
+CICD
+****
+	Continuous Integration and Continuous Deployment
+	1) GitHub
+		GitHub Hooks
+	2) Jenkins
+	3) Docker
+	4) EC2
+	
+Step 1.
+	create EC2 instance
+	
+	instance-name : fullstack-backend
+	
+	t3.large
+	
+Step 2.
+	open below ports
+	
+	1) 8080 (Jenkins)
+	2) 80 (Docker) HTTP
+	3) 9090 (Spring Boot)
+	
+
+Step 3.
+	create Elastic IP and assign to EC2
+	13.48.164.27
+	
+Step 4.
+	connect to EC2 by using Elastic IP
+	
+Step 5.
+	update ubuntu
+		> sudo apt update -y
+		
+
+Step 6.
+	install Java17 version (pom.xml)
+	
+	sudo apt update
+	sudo apt install fontconfig openjdk-17-jre -y	
+	java --version
+	
+	O/P : openjdk 17.0.18 2026-01-20
+
+
+Step 7.
+	install Jenkins	
+		https://www.jenkins.io/doc/book/installing/linux/
+		
+		
+		O/P: jenkins --version
+		2.541.3	
+		
+Step 8.
+	install maven 
+		maven is the build tool
+		
+		sudo apt update
+		sudo apt install maven
+		
+		mvn -version
+		
+		O/P : Apache Maven 3.8.7
+		
+Step 9.
+	install docker
+	
+	sudo apt update -y
+	sudo apt install docker.io -y
+	docker --version
+	
+	
+Step 10.
+	enable permissions
+	
+	> sudo usermod -aG jenkins ubuntu
+	> sudo usermod -aG docker ubuntu
+	> sudo usermod -aG docker jenkins
+
+
+Step 11.
+	restart Jenkins & Docker
+	
+	> sudo systemctl restart jenkins
+	> sudo systemctl restart docker
+	
+Step 12.
+	jenkins password
+	
+	sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+	
+	0dbf522d926d4524830376c231075881
+	
+Step 13.
+	connect to Jenkins
+	
+	http://13.48.164.27:8080/
+	
+Step 14.
+	install below plugins
+	
+	1) Docker
+	2) Docker Pipeline
+	3) Git Server
+	
+
+Step 15.
+	create GitHub
+		https://github.com/fullstacktraning/fullstack-backend-appln.git
+		
+Step 16.
+	delete sensitive info from application.properties file
+	
+	hidden files (ctrl + shift + . )
+	
+	create below files
+	1) .env
+	2) .gitignore
+	
+	> git init
+	> git config --global user.name "Samba"
+	> git config --global user.email "samba.pendela@gmail.com"
+	> git add .
+	> git commit -m "Spring Boot Ready for CICD"
+	> git remote add origin https://github.com/fullstacktraning/fullstack-backend-appln.git
+	> git push -u origin main
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
