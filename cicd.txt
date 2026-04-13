@@ -127,6 +127,10 @@ Step 16.
 	> git push -u origin main
 	
 	
+Step 17.
+	create Dockerfile and Jenkinsfile in root directory and push the code the GitHub
+	
+	
 	
 	
 	
