@@ -8,13 +8,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Code') {
-            steps {
-                git branch: 'main',
-                url: 'https://github.com/fullstacktraning/fullstack-backend-appln.git'
-            }
-        }
-
         stage('Build JAR') {
             steps {
                 sh 'mvn clean package -DskipTests'
