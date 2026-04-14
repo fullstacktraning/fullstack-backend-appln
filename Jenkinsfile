@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
+        stage('Create Env File') {
             steps {
                 withCredentials([
                     string(credentialsId: 'DB_URL', variable: 'DB_URL'),
@@ -36,19 +36,31 @@ pipeline {
                     string(credentialsId: 'AWS_ACCESS', variable: 'AWS_ACCESS'),
                     string(credentialsId: 'AWS_SECRET', variable: 'AWS_SECRET')
                 ]) {
-                    sh """
-					docker run -d --name fullstack-container -p 9090:9090 \
-					-e DB_URL=${DB_URL} \
-					-e DB_USER=${DB_USER} \
-					-e DB_PASS=${DB_PASS} \
-					-e JWT_SECRET=${JWT_SECRET} \
-					-e MAIL_USER=${MAIL_USER} \
-					-e MAIL_PASS=${MAIL_PASS} \
-					-e AWS_ACCESS=${AWS_ACCESS} \
-					-e AWS_SECRET=${AWS_SECRET} \
-					fullstack-backend
-					"""
+                    sh '''
+                    cat <<EOF > app.env
+DB_URL=$DB_URL
+DB_USER=$DB_USER
+DB_PASS=$DB_PASS
+JWT_SECRET=$JWT_SECRET
+MAIL_USER=$MAIL_USER
+MAIL_PASS=$MAIL_PASS
+AWS_ACCESS=$AWS_ACCESS
+AWS_SECRET=$AWS_SECRET
+EOF
+                    '''
                 }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                sh '''
+                docker run -d \
+                --name fullstack-container \
+                -p 9090:9090 \
+                --env-file app.env \
+                fullstack-backend
+                '''
             }
         }
     }
