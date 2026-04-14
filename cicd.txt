@@ -59,7 +59,7 @@ Step 8.
 		sudo apt update
 		sudo apt install maven
 		
-		mvn -version
+		mvn --version
 		
 		O/P : Apache Maven 3.8.7
 		
@@ -128,7 +128,19 @@ Step 16.
 	
 	
 Step 17.
+	install Git in Jenkins
+		manage jenkins / tools / git / check the checkbox (Install automatically)
+		
+Step 18.
 	create Dockerfile and Jenkinsfile in root directory and push the code the GitHub
+	
+Step 19.
+	Build Pipeline
+	
+Step 20.
+	Test Application
+	
+	http://13.48.164.27:9090/
 	
 	
 	
