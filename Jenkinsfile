@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "fullstack-backend"
-        CONTAINER_NAME = "fullstack-container"
-    }
-
     stages {
 
         stage('Build JAR') {
@@ -16,15 +11,15 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'docker build -t fullstack-backend .'
             }
         }
 
         stage('Stop Old Container') {
             steps {
                 sh '''
-                docker stop $CONTAINER_NAME || true
-                docker rm $CONTAINER_NAME || true
+                docker stop fullstack-container || true
+                docker rm fullstack-container || true
                 '''
             }
         }
@@ -43,7 +38,7 @@ pipeline {
                 ]) {
                     sh '''
                     docker run -d \
-                    --name $CONTAINER_NAME \
+                    --name fullstack-container \
                     -p 9090:9090 \
                     -e DB_URL=$DB_URL \
                     -e DB_USER=$DB_USER \
@@ -53,7 +48,7 @@ pipeline {
                     -e MAIL_PASS=$MAIL_PASS \
                     -e AWS_ACCESS=$AWS_ACCESS \
                     -e AWS_SECRET=$AWS_SECRET \
-                    $IMAGE_NAME
+                    fullstack-backend
                     '''
                 }
             }
