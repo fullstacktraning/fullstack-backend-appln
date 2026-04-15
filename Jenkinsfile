@@ -63,5 +63,29 @@ EOF
                 '''
             }
         }
+        
+        stage('Start Kafka') {
+    		steps {
+		        sh '''
+		        docker network create kafka-net || true
+		
+		        docker run -d --name zookeeper \
+		        --network kafka-net \
+		        -p 2181:2181 \
+		        -e ZOOKEEPER_CLIENT_PORT=2181 \
+		        -e ZOOKEEPER_TICK_TIME=2000 \
+		        confluentinc/cp-zookeeper || true
+		
+		        docker run -d --name kafka \
+		        --network kafka-net \
+		        -p 9092:9092 \
+		        -e KAFKA_BROKER_ID=1 \
+		        -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \
+		        -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 \
+		        -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+		        confluentinc/cp-kafka || true
+		        '''
+		    }
+		}
     }
 }
